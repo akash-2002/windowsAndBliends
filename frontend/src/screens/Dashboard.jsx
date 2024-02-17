@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef  } from "react";
 import axios from "axios";
+import "./Dashboard.css";
+import { toast } from "react-toastify";
+
 
 const Dashboard = () => {
   const [images, setImages] = useState([]);
@@ -11,8 +14,16 @@ const Dashboard = () => {
     description: "",
     colors: [],
     category_name: [],
+    price: null,
   });
+  const fileInputRef = useRef(null);
 
+  // Function to clear the selected files
+  const clearFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Reset the value to empty string
+    }
+  };
   const handleFileChange = (e) => {
     setImages(e.target.files);
   };
@@ -29,7 +40,7 @@ const Dashboard = () => {
     e.preventDefault();
 
     if (images.length === 0) {
-      alert("Please select one or more images.");
+      toast.error("Please select one or more images.");
       return;
     }
 
@@ -38,12 +49,10 @@ const Dashboard = () => {
     try {
       const formDataWithImages = new FormData();
       for (let i = 0; i < images.length; i++) {
-        formDataWithImages.append("file", images[i]);
+        formDataWithImages.append(`file`, images[i]);
       }
-
       // Append all form data except the image to a single key
-        formDataWithImages.append("formData", JSON.stringify(formData));
-        console.log("api formdata", JSON.stringify(formData));
+      formDataWithImages.append("formData", JSON.stringify(formData));
 
       const response = await axios.post(
         "http://127.0.0.1:5000/uploadImageWithFormData",
@@ -58,16 +67,27 @@ const Dashboard = () => {
       setUploadedFiles(response.data);
     } catch (error) {
       console.error("Error uploading images:", error);
-      alert("Failed to upload images. Please try again later.");
+      toast.error("Failed to upload images. Please try again later.");
     } finally {
-      setUploading(false);
+      await setUploading(false);
+      clearFileInput();
+      setImages([]);
+      setFormData({
+        batch_code: "",
+        name: "",
+        description: "",
+        colors: [],
+        category_name: [],
+        price: "",
+      });
+      toast.success("Product Is Uploded");
     }
   };
 
   return (
-    <div style={{ marginTop: "5rem" }}>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "1rem" }}>
+    <div className="upload-form-container">
+      <form onSubmit={handleSubmit} className="upload-form">
+        <div className="form-group">
           <label htmlFor="batch_code">Batch Code:</label>
           <input
             type="text"
@@ -76,10 +96,10 @@ const Dashboard = () => {
             placeholder="Batch Code"
             value={formData.batch_code}
             onChange={handleChange}
-            style={{ display: "block" }}
+            required
           />
         </div>
-        <div style={{ marginBottom: "1rem" }}>
+        <div className="form-group">
           <label htmlFor="name">Name:</label>
           <input
             type="text"
@@ -88,10 +108,22 @@ const Dashboard = () => {
             placeholder="Name"
             value={formData.name}
             onChange={handleChange}
-            style={{ display: "block" }}
+            required
           />
         </div>
-        <div style={{ marginBottom: "1rem" }}>
+        <div className="form-group">
+          <label htmlFor="name">price:</label>
+          <input
+            type="text"
+            id="price"
+            name="price"
+            placeholder="price"
+            value={formData.price}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
           <label htmlFor="description">Description:</label>
           <input
             type="text"
@@ -100,10 +132,10 @@ const Dashboard = () => {
             placeholder="Description"
             value={formData.description}
             onChange={handleChange}
-            style={{ display: "block" }}
+            required
           />
         </div>
-        <div style={{ marginBottom: "1rem" }}>
+        <div className="form-group">
           <label htmlFor="colors">Colors (comma separated):</label>
           <input
             type="text"
@@ -117,10 +149,10 @@ const Dashboard = () => {
                 colors: e.target.value.split(","),
               })
             }
-            style={{ display: "block" }}
+            required
           />
         </div>
-        <div style={{ marginBottom: "1rem" }}>
+        <div className="form-group">
           <label htmlFor="category_name">
             Category Names (comma separated):
           </label>
@@ -136,35 +168,35 @@ const Dashboard = () => {
                 category_name: e.target.value.split(","),
               })
             }
-            style={{ display: "block" }}
+            required
           />
         </div>
-        <div style={{ marginBottom: "1rem" }}>
+        <div className="form-group">
           <label htmlFor="file">Choose Image(s):</label>
           <input
             type="file"
             id="file"
             multiple
             onChange={handleFileChange}
-            style={{ display: "block" }}
+            required
+            ref={fileInputRef}
           />
         </div>
         <button type="submit" disabled={uploading}>
           {uploading ? "Uploading..." : "Upload Images"}
         </button>
       </form>
-      <div>
-        {uploadedFiles.length > 0 && (
-          <div>
-            <h2>Uploaded Files:</h2>
-            <ul>
-              {uploadedFiles.map((file, index) => (
-                <li key={index}>{file.fileName}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      {uploadedFiles.length > 0 && (
+        <div className="uploaded-files">
+          <h2>Data uploaded</h2>
+          <h2>Uploaded Files:</h2>
+          <ul>
+            {uploadedFiles.map((file, index) => (
+              <li key={index}>{file.fileName}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

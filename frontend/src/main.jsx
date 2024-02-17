@@ -14,6 +14,7 @@ import store from "./store";
 import { Provider } from "react-redux";
 
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
 
 //components
 import HomeScreen from "./screens/HomeScreen.jsx";
@@ -41,10 +42,12 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/cart" element={<ShoppingCart />} />
-      <Route path="/Dashboard" element={<Dashboard/>} />
       {/* private routes */}
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<ProfileScreen />} />
+      </Route>
+      <Route path="" element={<AdminRoute/> }>
+      <Route path="/Dashboard" element={<Dashboard/>} />
       </Route>
 
       {/* pages */}

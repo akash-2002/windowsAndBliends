@@ -55,14 +55,14 @@ console.log(batchCodeIf);
 var productInsertResult;
 if(batchCodeIf[0].length===0){
   productInsertResult = await connection.query(
-    'INSERT INTO products (name, batch_code, address, description) VALUES (?, ?, ?, ?)',
-    [productDetails.name, productDetails.batch_code, productDetails.address, productDetails.description]
+    'INSERT INTO products (name, batch_code, address, description,price) VALUES (?, ?, ?, ?,?)',
+    [productDetails.name, productDetails.batch_code, productDetails.address, productDetails.description,productDetails.price]
   );
 }
 else{
   productInsertResult = await connection.query(
-    'UPDATE products SET name = ?, address = ?, description = ? WHERE batch_code = ?',
-    [productDetails.name, productDetails.address, productDetails.description,productDetails.batch_code]
+    'UPDATE products SET name = ?, address = ?, description = ?,price=? WHERE batch_code = ?',
+    [productDetails.name, productDetails.address, productDetails.description,productDetails.price,productDetails.batch_code]
   );
 }
 return productInsertResult;

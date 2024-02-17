@@ -43,7 +43,7 @@ const Header = ({ isTopOfPage }) => {
 
   const logoutHandler = async () => {
     try {
-      await logputApiCall().unwrap();
+      // await logputApiCall().unwrap();
       dispatch(logout());
       navigate("/");
     } catch (error) {

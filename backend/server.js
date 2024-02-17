@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
 
 
-const uploadImage = multer({ dest: 'uploads/' }).single('file');
+const uploadImage = multer({ dest: 'uploads/' }).array('file');
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -114,41 +114,60 @@ app.get('/getProducts', async (req, res) => {
     }
   });
 
-const ImageUpload = async (file,batch_code) => {
-  const remoteFileName = uuidv4() + "_" + file.originalname; // Generate a unique file name for the FTP server
-  console.log(file);
-      // Save the uploaded file to a local temporary directory
-
-      // Connect to FTP server and upload the file
-      const client = new ftp.Client();
-      await client.access({
-        host: "ftp.hitechwindowandblinds.com",
-        user: "u989228710.image_upload",
-        password: "Hitechbliends@321",
-        secure: false, // Change to true if FTP server requires SSL/TLS
-      });
-      saveImagePath(remoteFileName, batch_code);
-      // await client.cd(
-      //   "/home/u989228710/domains/hitechwindowandblinds.com/public_html/assets"
-      // );
-      await client.uploadFrom(file.path, remoteFileName);
-      // Close FTP connection
-  await client.close();
-  return { fileName: remoteFileName };
-  };
+const ImageUpload = async (files, batch_code) => {
+  const response = [];
+  for (const file of files) {
+    const remoteFileName = uuidv4() + "_" + file.originalname;
+    console.log(file);
+    const client = new ftp.Client();
+    await client.access({
+      host: "ftp.hitechwindowandblinds.com",
+      user: "u989228710.image_upload",
+      password: "Hitechbliends@321",
+      secure: false,
+    });
+    saveImagePath(remoteFileName, batch_code);
+    await client.uploadFrom(file.path, remoteFileName);
+    await client.close();
+    response.push({ fileName: remoteFileName });
+  }
+  return response;
+};
 
     app.post("/uploadImageWithFormData", uploadImage, async (req, res) => {
       try {
-        const file = req.file; // Assuming file is sent as 'file' field in the form
-        console.log(file);
-        console.log("form data: ",req.body.formData);
-        const isproductUploaded=await uploadProductDetails(JSON.parse(req.body.formData));
-        const responce = ImageUpload(file, JSON.parse(req.body.formData).batch_code);
-        console.log("isproductUploaded", isproductUploaded); 
-        // Send the uploaded file name as response
-        res.status(200).json(responce);
+        const files = req.files; // Assuming multiple files are sent
+        console.log("files", files);
+        console.log("form data: ", req.body.formData);
+
+        const formData = JSON.parse(req.body.formData);
+        const isproductUploaded = await uploadProductDetails(formData);
+
+        const response = await ImageUpload(files, formData.batch_code);
+        console.log("isproductUploaded", isproductUploaded);
+
+        res.status(200).json(response);
       } catch (error) {
         console.error("Error uploading file:", error);
         res.status(500).json({ error: "Failed to upload file" });
       }
     });
+
+
+app.post("/auth", async (req, res) => {
+  console.log("authapihit");
+  try {
+    if ("HightechBliends@321" === req.body.password && req.body.email === "info@hitechwindowandblinds.com") {
+      res.send({
+        tocken: "authanticated buy akash",
+        profile: "Admin",
+      });
+    }
+    else {
+      throw { code: 500, message: "password or email is wrong doesn't match" };
+    }
+  }
+  catch (error) {
+    res.status(500).json({ error: "password or email is wrong doesn't match" });
+  }
+})

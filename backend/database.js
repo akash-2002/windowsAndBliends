@@ -61,7 +61,7 @@ export async function getAllProductDetails() {
         
         // Query to retrieve product details with colors and categories
         const sql = `
-        SELECT p.name AS product_name, p.batch_code, p.address, p.description,
+        SELECT p.name AS product_name, p.batch_code, p.address, p.description,p.price,
               JSON_ARRAYAGG(c.color_id) AS colors,
               JSON_ARRAYAGG(cat.category_name) AS categories,
               JSON_ARRAYAGG(i.image_url) AS images

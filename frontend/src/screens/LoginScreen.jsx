@@ -33,10 +33,15 @@ const LoginScreen = () => {
     try {
       //unwrap the promise
       const res = await login({ email, password }).unwrap();
+      console.log(res);
+      if (res.Status == 500) {
+        alert("password or email is wrong doesn't match");
+      }
       dispatch(setCredentials({ ...res }));
       navigate("/");
     } catch (error) {
-      toast.error(error?.data?.message || error.error);
+      console.log(error);
+      toast.error(error?.data?.error || error.error);
     }
   };
 

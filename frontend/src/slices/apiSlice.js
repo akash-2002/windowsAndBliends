@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 //keep empty "" if we use proxy
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://backend-stores.vercel.app",
+  baseUrl: "http://localhost:8080",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
     // If we have a token set in state, let's assume that we should be passing it.
