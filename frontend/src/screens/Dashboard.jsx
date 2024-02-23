@@ -4,11 +4,12 @@ import "./Dashboard.css";
 import { toast } from "react-toastify";
 
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const [images, setImages] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [formData, setFormData] = useState({
+  const ifData=props.formData;
+  const [formData, setFormData] = useState(ifData?ifData:{
     batch_code: "",
     name: "",
     description: "",
