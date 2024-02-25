@@ -31,7 +31,7 @@ const ShoppingCart = () => {
   const HandleClearCart=()=>{
     dispatch(clearCart())
   }
-  
+  console.log("cart: ", cart);
 
   return (
     <section className="container mx-auto w-full pt-10 md:pl-4 md:pt-20 lg:ml-auto">
@@ -79,15 +79,15 @@ const ShoppingCart = () => {
                           {/* PRODUCT */}
                           <div className="">
                             <img
-                              src={cartItem.images[0]}
-                              alt={cartItem.product_name}
+                              src={cartItem.img}
+                              alt={cartItem.name}
                               className=" h-24 object-cover"
                             />
-                            <p className="">{cartItem.product_name}</p>
+                            <p className="">{cartItem.name}</p>
                           </div>
 
                           <div className=" flex justify-between">
-                            <p className="">{cartItem.price?.cartItem.price || 30}</p>
+                            <p className="">{cartItem.price || 30}</p>
                           </div>
                           {/* BUTTONS */}
                           <div className="ml-2 flex h-1/2 w-1/5 items-center justify-center">
