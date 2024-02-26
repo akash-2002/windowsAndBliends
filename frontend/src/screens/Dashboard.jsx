@@ -8,19 +8,15 @@ const Dashboard = (props) => {
   const [images, setImages] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const ifData=props.product;
-  const [formData, setFormData] = useState(
-    ifData
-      ? ifData
-      : {
-          batch_code: "",
-          product_name: "",
-          description: "",
-          colors: [],
-          categories: [],
-          price: null,
-        }
-  );
+  const ifData=props.formData;
+  const [formData, setFormData] = useState(ifData?ifData:{
+    batch_code: "",
+    name: "",
+    description: "",
+    colors: [],
+    category_name: [],
+    price: null,
+  });
   const fileInputRef = useRef(null);
 
   // Function to clear the selected files
@@ -44,10 +40,10 @@ const Dashboard = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // if (images.length === 0) {
-    //   toast.error("Please select one or more images.");
-    //   return;
-    // }
+    if (images.length === 0) {
+      toast.error("Please select one or more images.");
+      return;
+    }
 
     setUploading(true);
 
@@ -60,7 +56,7 @@ const Dashboard = (props) => {
       formDataWithImages.append("formData", JSON.stringify(formData));
 
       const response = await axios.post(
-        "http://13.53.103.57:5000/uploadImageWithFormData",
+        "http://127.0.0.1:5000/uploadImageWithFormData",
         formDataWithImages,
         {
           headers: {
@@ -79,10 +75,10 @@ const Dashboard = (props) => {
       setImages([]);
       setFormData({
         batch_code: "",
-        product_name: "",
+        name: "",
         description: "",
         colors: [],
-        categories: [],
+        category_name: [],
         price: "",
       });
       toast.success("Product Is Uploded");
@@ -105,17 +101,13 @@ const Dashboard = (props) => {
           />
         </div>
         <div className="form-group">
-          <label
-            htmlFor="product_name"
-          >
-            Name:
-          </label>
+          <label htmlFor="name">Name:</label>
           <input
             type="text"
-            id="product_name"
-            name="product_name"
-            placeholder="product_name"
-            value={formData.product_name}
+            id="name"
+            name="name"
+            placeholder="Name"
+            value={formData.name}
             onChange={handleChange}
             required
           />
@@ -162,17 +154,19 @@ const Dashboard = (props) => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="categories">Category Names (comma separated):</label>
+          <label htmlFor="category_name">
+            Category Names (comma separated):
+          </label>
           <input
             type="text"
-            id="categories"
-            name="categories"
+            id="category_name"
+            name="category_name"
             placeholder="Category Names"
-            value={formData.categories.join(",")}
+            value={formData.category_name.join(",")}
             onChange={(e) =>
               setFormData({
                 ...formData,
-                categories: e.target.value.split(","),
+                category_name: e.target.value.split(","),
               })
             }
             required
@@ -185,11 +179,12 @@ const Dashboard = (props) => {
             id="file"
             multiple
             onChange={handleFileChange}
+            required
             ref={fileInputRef}
           />
         </div>
         <button type="submit" disabled={uploading}>
-          {uploading ? "Uploading..." : "Upload Files"}
+          {uploading ? "Uploading..." : "Upload Images"}
         </button>
       </form>
       {uploadedFiles.length > 0 && (
