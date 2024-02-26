@@ -73,70 +73,78 @@ export async function addColorsForProduct(batchCode, colors,connection) {
   for (const colorId of colors) {
     // Check if color name exists
     // console.log(existingColor[0])
-    const existingColor = await checkColorIfExcist(colorId,connection);
+    try {
+      const existingColor = await checkColorIfExcist(colorId, connection);
 
-    if (existingColor.length==0) {
-      // If color name doesn't exist, create a new entry
-      const newColor = await connection.query(
-        'INSERT INTO colors (color_id,color_name) VALUES (?,"colorname")',
-        [colorId]
-      );
-      await connection.query(
-        'INSERT INTO product_colors (batch_code, color_id) VALUES (?, ?)',
-        [batchCode, colorId]
-      );
-      // Use the newly inserted color's ID
-    } else {
-      // If color name exists, use its ID directly
-      await connection.query(
-        'INSERT INTO product_colors (batch_code, color_id) VALUES (?, ?)',
-        [batchCode, existingColor.color_id]
-      );
+      if (existingColor.length == 0) {
+        // If color name doesn't exist, create a new entry
+        const newColor = await connection.query(
+          'INSERT INTO colors (color_id,color_name) VALUES (?,"colorname")',
+          [colorId]
+        );
+        await connection.query(
+          "INSERT ignore INTO product_colors (id,batch_code, color_id) VALUES (?, ?,?)",
+          [batchCode + "_" + colorId, batchCode, colorId]
+        );
+        // Use the newly inserted color's ID
+      } else {
+        // If color name exists, use its ID directly
+        await connection.query(
+          "INSERT ignore INTO product_colors (id,batch_code, color_id) VALUES (?, ?,?)",
+          [batchCode + "_" + colorId, batchCode, colorId]
+        );
+      }
+    }
+    catch (err) {
+      console.log(err);
     }
   }
 
 }
 
 export async function addCategoriesForProduct(batchCode, categoryNames,connection) {
-  try {
-    // const connection = await pool.getConnection();
-
-    try {
-      // Get all existing categories
-      const existingCategories = await getAllCategories(connection);
-
-      for (const categoryName of categoryNames) {
+  // const connection = await pool.getConnection();
+  // Get all existing categories
+  const existingCategories = await getAllCategories(connection);
+  
+  for (const categoryName of categoryNames) {
+        try {
         // Check if category ID exists
         const existingCategory = existingCategories.find(category => category.category_name === categoryName);
 
         if (!existingCategory) {
           // If category ID doesn't exist, create a new entry
           const [categories] = await connection.query(
-            'INSERT INTO categories (category_name) VALUES (?)',
+            "INSERT ignore INTO categories (category_name) VALUES (?)",
             [categoryName]
           );
           // Use the newly inserted category's ID
           await connection.query(
-            'INSERT INTO product_categories (batch_code, category_id) VALUES (?, ?)',
-            [batchCode, categories.insertId]
+            "INSERT ignore INTO product_categories (id,batch_code, category_id) VALUES (?, ?,?)",
+            [
+              batchCode + "_" + categories.insertId,
+              batchCode,
+              categories.insertId,
+            ]
           );
         } else {
           // If category ID exists, use its ID directly
           await connection.query(
-            'INSERT INTO product_categories (batch_code, category_id) VALUES (?, ?)',
-            [batchCode, existingCategory.category_id]
+            "INSERT INTO product_categories (id,batch_code, category_id) VALUES (?, ?,?)",
+            [
+              batchCode + "_" + categories.insertId,
+              batchCode,
+              categories.insertId,
+            ]
           );
+          // connection.release();
+          // await connection.commit();
         }
+      } catch (error) {
+        console.error('Error adding categories for product:', error);
+        // throw error;
       }
-      // connection.release();
-      // await connection.commit();
-    } catch (error) {
-      throw error;
     }
-  } catch (error) {
-    console.error('Error adding categories for product:', error);
-    throw error;
-  }
 }
 
 
