@@ -1,4 +1,4 @@
-import { featureProducts } from "../../data";
+import { featureProducts,latestProducts } from "../../data";
 import { motion } from "framer-motion";
 import Offers from "./Offers";
 import SharedText from "../shares/SharedText";
@@ -43,17 +43,19 @@ const Product = () => {
         variants={container}
         className="gridColumn-3"
       >
-        {products.map((product) => {
-          if (product.categories.includes("treanding")) {
-            return(
+        {featureProducts.map((product) => {
+          {
+            /* if (product.categories.includes("treanding")) { */
+          }
+          return (
             <div
               className={` h-[361px] w-[270px] justify-self-center drop-shadow-xl md:grid md:grid-rows-1`}
-              key={product.batch_code}
+              key={product.id}
             >
               <div className={`${flexCenter} bg-secondary p-5`}>
                 <img
-                  src={product.images[0]}
-                  alt={product.product_name}
+                  src={product.img}
+                  alt={product.name}
                   loading="lazy"
                   //className="zoom"
                 />
@@ -61,17 +63,23 @@ const Product = () => {
               <div
                 className={`${flexCenter} flex-col gap-y-2 bg-white px-8 py-2`}
               >
-                <h3 className="text-pink">{product.product_name}</h3>
+                <h3 className="text-pink">{product.name}</h3>
                 <img src={product.color} alt={product.name} />
-                <p className="font-sm font-jose text-blue">
-                  {product.batch_code}
-                </p>
+                <p className="font-sm font-jose text-blue">{product.id}</p>
                 <p className="text-sm text-blue">30</p>
               </div>
-            </div>);
-          } else {
-            return null; // Return null if the condition is not met
-          }})}
+            </div>
+          );
+          {
+            /* } else { */
+          }
+          {
+            /* return null; // Return null if the condition is not met */
+          }
+          {
+            /* } */
+          }
+        })}
       </motion.div>
 
       {/* LATEST PRODUCTS */}
@@ -100,34 +108,43 @@ const Product = () => {
         </div> */}
 
         <div className="gridColumn-6 mt-10">
-          {products.map((product) => {
-            if (product.categories.includes("latest")) {
-              return(
+          {featureProducts.map((product) => {
+            {
+              /* if (product.categories.includes("latest")) { */
+            }
+            return (
               <div
                 className={` h-[361px] w-[270px] justify-self-center drop-shadow-xl md:grid md:grid-rows-1`}
-                key={product.batch_code}
+                key={product.id}
               >
                 <div className={`${flexCenter} bg-secondary p-5`}>
                   <img
-                    src={product.images[0]}
+                    src={product.img}
                     alt={product.product_name}
                     loading="lazy"
                     //className="zoom"
                   />
                 </div>
-                <div
-                  className={`${flexCenter} flex-col gap-y-2 bg-white px-8 py-2`}
-                >
-                  <h3 className="text-pink">{product.product_name}</h3>
-                  <img src={product.color} alt={product.product_name} />
-                  <p className="font-sm font-jose text-blue">
-                    {product.batch_code}
-                  </p>
-                  <p className="text-sm text-blue">30</p>
-                </div>
-              </div>);
-            } else {
-              return null; // Return null if the condition is not met
+                {/* <div
+                    className={`${flexCenter} flex-col gap-y-2 bg-white px-8 py-2`}
+                  >
+                    <h3 className="text-pink">{product.product_name}</h3>
+                    <img src={product.color} alt={product.product_name} />
+                    <p className="font-sm font-jose text-blue">
+                      {product.batch_code}
+                    </p>
+                    <p className="text-sm text-blue">30</p>
+                  </div> */}
+              </div>
+            );
+            {
+              /* } else { */
+            }
+            {
+              /* return null; // Return null if the condition is not met */
+            }
+            {
+              /* } */
             }
           })}
         </div>
