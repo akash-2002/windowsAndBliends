@@ -16,8 +16,8 @@ const container = {
 };
 
 const Product = () => {
+  debugger
   const products = useSelector((state) => state.products.items);
-  console.log("products.jsx",products)
   console.log("products from useselector", products);
   return (
     <section className=" mx-auto  w-full md:px-20">

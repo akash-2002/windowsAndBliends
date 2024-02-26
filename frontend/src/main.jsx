@@ -19,7 +19,6 @@ import AdminRoute from "./components/AdminRoute.jsx";
 //components
 import HomeScreen from "./screens/HomeScreen.jsx";
 import Dashboard from "./screens/dashboard.jsx";
-import LiveProductData from "./screens/LiveProductData.jsx";
 import LoginScreen from "./screens/LoginScreen.jsx";
 import RegisterScreen from "./screens/RegisterScreen.jsx";
 import Contact from "./screens/company/Contact.jsx";
@@ -47,9 +46,8 @@ const router = createBrowserRouter(
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<ProfileScreen />} />
       </Route>
-      <Route path="" element={<AdminRoute />}>
-        <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/LiveProductData" element={<LiveProductData />} />
+      <Route path="" element={<AdminRoute/> }>
+      <Route path="/Dashboard" element={<Dashboard/>} />
       </Route>
 
       {/* pages */}
