@@ -28,7 +28,7 @@ const ProductsGrid = ({ data, isLoading, error }) => {
   return (
     <>
       <div className="gridColumn-4 mt-10 md:mt-20">
-        {pageProducts.map((product) => (
+        {data.map((product) => (
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -38,7 +38,7 @@ const ProductsGrid = ({ data, isLoading, error }) => {
               hidden: { opacity: 0, y: -50 },
               visible: { opacity: 1, y: 0 },
             }}
-            key={product.id}
+            key={product.batch_code}
             className="h-[390px] w-[240px]"
           >
             <div
@@ -49,8 +49,8 @@ const ProductsGrid = ({ data, isLoading, error }) => {
               }}
             >
               <img
-                src={product.img}
-                alt={product.name}
+                src={product.images[0]}
+                alt={product.product_name}
                 className="zoom h-48 w-full object-contain"
                 loading="lazy"
               />
@@ -58,13 +58,15 @@ const ProductsGrid = ({ data, isLoading, error }) => {
             <div className=" md:py-5">
               <div className="text-center">
                 <p className="text-md font-jose font-extrabold text-[#151875]">
-                  {product.name}
+                  {product.product_name}
                 </p>
               </div>
 
               <div className="flex items-center justify-center gap-3 text-center">
-                <p className=" text-sm ">{product.price}</p>
-                {/* <p className="text-sm text-pink line-through">€20</p> */}
+                <p className=" text-sm ">€36</p>
+                <p className="text-sm text-pink line-through">
+                  €20
+                </p>
               </div>
               <div className="bottom-5 w-full px-6 transition ">
                 <div className="flex justify-center gap-x-6">

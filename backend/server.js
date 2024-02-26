@@ -1,4 +1,4 @@
-import {getAllProductDetails, handleDelete} from './database.js'
+import {getAllProductDetails} from './database.js'
 import express from 'express';
 import bodyParser from 'body-parser';
 import multer from 'multer';
@@ -116,21 +116,21 @@ app.get('/getProducts', async (req, res) => {
 
 const ImageUpload = async (files, batch_code) => {
   const response = [];
-  const client = new ftp.Client();
-  await client.access({
-    host: "ftp.hitechwindowandblinds.com",
-    user: "u989228710.image_upload",
-    password: "Hitechbliends@321",
-    secure: false,
-  });
   for (const file of files) {
     const remoteFileName = uuidv4() + "_" + file.originalname;
     console.log(file);
+    const client = new ftp.Client();
+    await client.access({
+      host: "ftp.hitechwindowandblinds.com",
+      user: "u989228710.image_upload",
+      password: "Hitechbliends@321",
+      secure: false,
+    });
     saveImagePath(remoteFileName, batch_code);
     await client.uploadFrom(file.path, remoteFileName);
+    await client.close();
     response.push({ fileName: remoteFileName });
   }
-  await client.close();
   return response;
 };
 
@@ -171,16 +171,3 @@ app.post("/auth", async (req, res) => {
     res.status(500).json({ error: "password or email is wrong doesn't match" });
   }
 })
-
-app.delete("/deleteProduct", async (req, res) => {
-  try {
-    // Assuming handleDelete is a function that deletes the product based on batch_code
-    handleDelete(req.body.batch_code);
-    res
-      .status(200)
-      .send(`Product deleted with batch_code: ${req.body.batch_code}`);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("An error occurred while deleting the product.");
-  }
-});

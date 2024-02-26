@@ -26,7 +26,7 @@ const productDetails =
 
 export async function uploadProductDetails(req) {
   const productDetails = req;
-  // console.log(req.batch_code);
+  console.log(req.batch_code);
   try {
     const connection = await pool.getConnection();
     await connection.beginTransaction();
@@ -34,7 +34,7 @@ export async function uploadProductDetails(req) {
     const productInsertResult = await refreshProducts(connection,productDetails);
     // console.log("productadded: ",productInsertResult);
     await addColorsForProduct(productDetails.batch_code, productDetails.colors,connection);
-    await addCategoriesForProduct(productDetails.batch_code, productDetails.categories,connection)
+    await addCategoriesForProduct(productDetails.batch_code, productDetails.category_name,connection)
     connection.release();
 
 
@@ -48,22 +48,21 @@ export async function uploadProductDetails(req) {
   }
 }
 
-async function refreshProducts(connection, productDetails) {
-  console.log("product to upload", productDetails);
+async function refreshProducts(connection,productDetails){
 const batchCodeIf =  await connection.query('select * from products where batch_code=?',
 [productDetails.batch_code]);
-// console.log(batchCodeIf);
+console.log(batchCodeIf);
 var productInsertResult;
 if(batchCodeIf[0].length===0){
   productInsertResult = await connection.query(
     'INSERT INTO products (name, batch_code, address, description,price) VALUES (?, ?, ?, ?,?)',
-    [productDetails.product_name, productDetails.batch_code, productDetails.address, productDetails.description,productDetails.price]
+    [productDetails.name, productDetails.batch_code, productDetails.address, productDetails.description,productDetails.price]
   );
 }
 else{
   productInsertResult = await connection.query(
     'UPDATE products SET name = ?, address = ?, description = ?,price=? WHERE batch_code = ?',
-    [productDetails.product_name, productDetails.address, productDetails.description,productDetails.price,productDetails.batch_code]
+    [productDetails.name, productDetails.address, productDetails.description,productDetails.price,productDetails.batch_code]
   );
 }
 return productInsertResult;
@@ -112,7 +111,7 @@ export async function addCategoriesForProduct(batchCode, categoryNames,connectio
         try {
         // Check if category ID exists
         const existingCategory = existingCategories.find(category => category.category_name === categoryName);
-console.log("existingCategory", existingCategory);
+
         if (!existingCategory) {
           // If category ID doesn't exist, create a new entry
           const [categories] = await connection.query(
@@ -133,9 +132,9 @@ console.log("existingCategory", existingCategory);
           await connection.query(
             "INSERT INTO product_categories (id,batch_code, category_id) VALUES (?, ?,?)",
             [
-              batchCode + "_" + existingCategory.category_id,
+              batchCode + "_" + categories.insertId,
               batchCode,
-              existingCategory.category_id,
+              categories.insertId,
             ]
           );
           // connection.release();
