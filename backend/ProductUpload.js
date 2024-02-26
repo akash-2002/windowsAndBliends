@@ -131,7 +131,7 @@ console.log("existingCategory", existingCategory);
         } else {
           // If category ID exists, use its ID directly
           await connection.query(
-            "INSERT ignore INTO product_categories (id,batch_code, category_id) VALUES (?, ?,?)",
+            "INSERT INTO product_categories (id,batch_code, category_id) VALUES (?, ?,?)",
             [
               batchCode + "_" + existingCategory.category_id,
               batchCode,
