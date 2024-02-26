@@ -174,7 +174,7 @@ app.post("/auth", async (req, res) => {
 
 app.delete("/deleteProduct", async (req, res) => {
   try {
-    // Assuming handleDelete is a function that delaetes the product based on batch_code
+    // Assuming handleDelete is a function that deletes the product based on batch_code
     handleDelete(req.body.batch_code);
     res
       .status(200)
