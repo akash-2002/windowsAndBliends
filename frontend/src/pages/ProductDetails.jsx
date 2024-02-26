@@ -12,31 +12,31 @@ import { addToCart } from "../slices/cartSlice";
   
 
 const Products = () => {
-  const products = useSelector((state) => state.products.productDetails);
-  const allProducts = useSelector((state) => state.products.items);
-  console.log("component product", products);
-  const dispatch = useDispatch();
+  // const products = useSelector((state) => state.products.productDetails);
+  // const allProducts = useSelector((state) => state.products.items);
+  // console.log("component product", products);
+  // const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-  const handleAddToCart = (productId) => {
-    console.log("button clicked", productId);
-    const itemIndex = allProducts.findIndex(
-      (item) => item.batch_code === productId
-    );
-    console.log("itemIndex", itemIndex);
-    dispatch(addToCart(allProducts[itemIndex]));
-    navigate("/cart");
-  };
-  const getProductImages = (images) => {
-    const productImages = images.map((image) => {
-      return {
-        original: image,
-        thumbnail: image,
-      };
-    });
-    return productImages;
-  };
-  const images = getProductImages(products.images);
+  // const navigate = useNavigate();
+  // const handleAddToCart = (productId) => {
+  //   console.log("button clicked", productId);
+  //   const itemIndex = allProducts.findIndex(
+  //     (item) => item.batch_code === productId
+  //   );
+  //   console.log("itemIndex", itemIndex);
+  //   dispatch(addToCart(allProducts[itemIndex]));
+  //   navigate("/cart");
+  // };
+  // const getProductImages = (images) => {
+  //   const productImages = images.map((image) => {
+  //     return {
+  //       original: image,
+  //       thumbnail: image,
+  //     };
+  //   });
+  //   return productImages;
+  // };
+  // const images = getProductImages(products.images);
   return (
     <section className="pt-10">
       {/* banner title */}
@@ -44,10 +44,10 @@ const Products = () => {
       {/* product detail */}
       <div className="flex  h-full w-full items-center justify-center bg-white lg:px-20">
         <div className="flex w-full  flex-col items-center gap-6  p-3 shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] md:h-[500px]  md:w-full md:flex-row">
-          <ImageGallery items={images} />
+          <ImageGallery items={productDetails.images} />
           <div className=" flex flex-col space-y-3 p-3">
             <h1 className="font-jose text-[30px] font-semibold text-blue">
-              {products.product_name}
+              {productDetails.productName}
             </h1>
             <div className="flex gap-2">
               <p className="font-jose text-sm text-blue">
@@ -58,12 +58,12 @@ const Products = () => {
               </p>
             </div>
             <p className="font-jose text-sm text-subtext">
-              {products.description}
+              {productDetails.productDetail}
             </p>
             <div
               className="flex gap-2 text-center"
               onClick={() => {
-                handleAddToCart(products.batch_code);
+                // handleAddToCart(productDetails.productId);
               }}
               style={{ cursor: "pointer" }}
             >
