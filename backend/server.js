@@ -181,8 +181,7 @@ const ca = fs.readFileSync(
 );
 const options = {
   key: sslKey,
-  cert: sslCert,
-  ca:ca
+  cert: ca,
 };
 const server = https.createServer(options, app);
 server.listen(port, async () => {
