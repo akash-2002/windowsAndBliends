@@ -175,10 +175,14 @@ const sslCert = fs.readFileSync(
   path.resolve(__dirname, "0003_csr-certbot.pem"),
   "utf-8"
 );
+const ca = fs.readFileSync(
+ (path.resolve(__dirname, "certificate.pem"),"utf-8")
+);
 
 const options = {
   key: sslKey,
   cert: sslCert,
+  ca:ca
 };
 const server = https.createServer(options, app);
 server.listen(port, async () => {
