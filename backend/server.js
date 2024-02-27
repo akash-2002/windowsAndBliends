@@ -9,8 +9,10 @@ import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import cors from "cors";
 import https from "https";
-import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url)); // Define __dirname
 
 const uploadImage = multer({ dest: "uploads/" }).array("file");
 const app = express();
@@ -168,8 +170,8 @@ app.delete("/deleteProduct", async (req, res) => {
 });
 
 
-const sslKey = fs.readFileSync(path.resolve(__dirname, "yourdomain.key"));
-const sslCert = fs.readFileSync(path.resolve(__dirname, "yourdomain.crt"));
+const sslKey = fs.readFileSync(path.resolve(__dirname, "hitechwindowandblinds.key"));
+const sslCert = fs.readFileSync(path.resolve(__dirname, "hitechwindowandblinds.crt"));
 
 const options = {
   key: sslKey,
