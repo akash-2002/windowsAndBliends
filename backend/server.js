@@ -176,9 +176,9 @@ const sslCert = fs.readFileSync(
   "utf-8"
 );
 const ca = fs.readFileSync(
- (path.resolve(__dirname, "certificate.pem"),"utf-8")
+  path.resolve(__dirname, "certificate.pem"),
+  "utf-8"
 );
-
 const options = {
   key: sslKey,
   cert: sslCert,
