@@ -170,17 +170,17 @@ app.delete("/deleteProduct", async (req, res) => {
 });
 
 
-const sslKey = fs.readFileSync(path.resolve(__dirname, "0003_key-certbot.pem"),"utf-8");
-const sslCert = fs.readFileSync(
-  path.resolve(__dirname, "0003_csr-certbot.pem"),
+const cert = fs.readFileSync(path.resolve(__dirname, "certificate.crt"),"utf-8");
+const key = fs.readFileSync(
+  path.resolve(__dirname, "private.key"),
   "utf-8"
 );
 const ca = fs.readFileSync(
-  path.resolve(__dirname, "certificate.pem"),
+  path.resolve(__dirname, "ca_bundle.crt"),
   "utf-8"
 );
 const options = {
-  key: sslKey,
+  key: cert,
   cert: ca,
   ca: sslCert,
 };

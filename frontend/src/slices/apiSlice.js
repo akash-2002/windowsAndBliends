@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 //keep empty "" if we use proxy
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:8080",
+  baseUrl: "https://13.53.103.57:5000",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
     // If we have a token set in state, let's assume that we should be passing it.

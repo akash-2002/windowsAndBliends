@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // const serverUrl = import.meta.env.VITE_SERVER_URL;
 
-const baseUrl = `http://localhost:5000/`;
+const baseUrl = `https://13.53.103.57:5000/`;
 
 export const productsApi = createApi({
   reducerPath: "productsApi",
