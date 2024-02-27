@@ -170,8 +170,11 @@ app.delete("/deleteProduct", async (req, res) => {
 });
 
 
-const sslKey = fs.readFileSync(path.resolve(__dirname, "hitechwindowandblinds.key"));
-const sslCert = fs.readFileSync(path.resolve(__dirname, "hitechwindowandblinds.crt"));
+const sslKey = fs.readFileSync(path.resolve(__dirname, "0003_key-certbot.pem"),"utf-8");
+const sslCert = fs.readFileSync(
+  path.resolve(__dirname, "0003_csr-certbot.pem"),
+  "utf-8"
+);
 
 const options = {
   key: sslKey,
