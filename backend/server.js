@@ -180,9 +180,9 @@ const ca = fs.readFileSync(
   "utf-8"
 );
 const options = {
-  key: cert,
-  cert: ca,
-  ca: sslCert,
+  key: key,
+  cert: cert,
+  ca: ca,
 };
 const server = https.createServer(options, app);
 server.listen(port, async () => {
