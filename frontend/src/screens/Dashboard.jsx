@@ -56,7 +56,7 @@ const Dashboard = (props) => {
       formDataWithImages.append("formData", JSON.stringify(formData));
 
       const response = await axios.post(
-        "http://127.0.0.1:5000/uploadImageWithFormData",
+        "https://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000/uploadImageWithFormData",
         formDataWithImages,
         {
           headers: {

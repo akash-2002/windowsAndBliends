@@ -24,7 +24,7 @@
 //   };
 //   const handleDelete = async (batch_code) => {
 //        try {
-//     const response = await fetch(`http://13.53.103.57:5000/deleteProduct`, {
+//     const response = await fetch(`http://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000/deleteProduct`, {
 //       method: "DELETE",
 //       headers: {
 //         "Content-Type": "application/json",

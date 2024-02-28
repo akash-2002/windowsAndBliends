@@ -16,8 +16,8 @@ export const productsFetch = createAsyncThunk(
   "products/productsFetch",
   //payloadCreator
   async () => {
-    //http://13.53.103.57:5000/getProducts
-    // const response = await axios.get(`http://13.53.103.57:5000/getProducts`);
+    //http://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000/getProducts
+    // const response = await axios.get(`http://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000/getProducts`);
     return response?.data;
   }
 );

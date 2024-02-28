@@ -1,6 +1,6 @@
 import { apiSlice } from "./apiSlice";
 
-const USER_URL = "https://13.53.103.57:5000";
+const USER_URL = "https://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000";
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
