@@ -16,8 +16,7 @@ export const productsFetch = createAsyncThunk(
   "products/productsFetch",
   //payloadCreator
   async () => {
-    //http://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000/getProducts
-    // const response = await axios.get(`http://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000/getProducts`);
+    const response = await axios.get(`https://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000/getProducts`);
     return response?.data;
   }
 );
@@ -45,7 +44,7 @@ const productsSlice = createSlice({
       state.items = payload;
     });
     builder.addCase(productsFetch.rejected, (state, { payload }) => {
-      state.status = "rejected";
+      state.status = "No Product Found";
     });
   },
 });

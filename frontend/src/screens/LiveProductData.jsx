@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "./Dashboard.css";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { Edit, Delete } from "@mui/icons-material";
+// import { Edit, Delete } from "@mui/icons-material";
 const LiveProductData = () => {
   const { status, items: products } = useSelector((state) => state.products);
     const [productForEdit, setProductForEdit] = useState(null);
@@ -83,10 +83,10 @@ const LiveProductData = () => {
                     <td>{product.categories.join(", ")}</td>
                     <td>
                       <button onClick={() => handleEditClick(product)}>
-                        <Edit/>
+                        Edit
                       </button>
                       <button onClick={() => handleDelete(product.batch_code)}>
-                        <Delete/>
+                        Delete
                       </button>
                     </td>
                   </tr>
