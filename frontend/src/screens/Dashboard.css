@@ -1,7 +1,6 @@
 .upload-form-container {
   max-width: 600px;
   margin: 0 auto;
-  margin-top: 118px;
   margin-bottom: 20px;
   padding: 20px;
   border: 1px solid #ccc;
@@ -55,4 +54,48 @@ ul {
 
 li {
   margin-bottom: 5px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {background-color: #f9f9f9;}
+
+button {
+  margin-right: 5px;
+}
+.tab-buttons {
+  display: flex;
+  justify-content: center; /* Center the tab buttons */
+}
+
+.tab-buttons button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.tab-buttons button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.tab-content {
+  border: 1px solid #ccc;
+  padding: 20px;
 }

@@ -104,3 +104,15 @@ const updatedata = (rows) => {
     };
   });
 };
+export const handleDelete = async (batch_code) => {
+  const connection = await pool.getConnection();
+  await connection.query("delete from product_categories where batch_code=?", [
+    batch_code,
+  ]);
+  await connection.query("delete from product_colors where batch_code=?", [
+    batch_code,
+  ]);
+  await connection.query("delete from products where batch_code=?", [
+    batch_code,
+  ]);
+};

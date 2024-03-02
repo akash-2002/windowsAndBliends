@@ -30,6 +30,10 @@ const productsSlice = createSlice({
       console.log("payload: ", payload);
       state.productDetails = payload;
     },
+    deleteProduct: (state, { payload }) => {
+      console.log("reducer called")
+      state.items = payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(productsFetch.pending, (state, { payload }) => {
@@ -45,6 +49,6 @@ const productsSlice = createSlice({
     });
   },
 });
-export const { addToProductDetails } = productsSlice.actions;
+export const { addToProductDetails, deleteProduct } = productsSlice.actions;
 
 export default productsSlice.reducer;

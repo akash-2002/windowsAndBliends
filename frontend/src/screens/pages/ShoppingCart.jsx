@@ -73,21 +73,21 @@ const ShoppingCart = () => {
                     <div className="-mx-8items-center">
                       {cart.cartItems?.map((cartItem) => (
                         <div
-                          key={cartItem.batch_code}
+                          key={cartItem.id}
                           className="grid grid-cols-3 gap-x-20 gap-y-10 md:gap-x-8 md:gap-y-6"
                         >
                           {/* PRODUCT */}
                           <div className="">
                             <img
-                              src={cartItem.images[0]}
-                              alt={cartItem.product_name}
+                              src={cartItem.img}
+                              alt={cartItem.name}
                               className=" h-24 object-cover"
                             />
-                            <p className="">{cartItem.product_name}</p>
-                          </div>
+                            <p className="">{cartItem.name}</p>
+                          </div> 
 
                           <div className=" flex justify-between">
-                            <p className="">{cartItem.price?.cartItem.price || 30}</p>
+                            <p className="">{cartItem.price || 30}</p>
                           </div>
                           {/* BUTTONS */}
                           <div className="ml-2 flex h-1/2 w-1/5 items-center justify-center">

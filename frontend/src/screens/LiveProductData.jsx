@@ -1,135 +1,106 @@
-// import React, { useState } from "react";
-// import Dashboard from "./Dashboard";
-// import { deleteProduct } from "../slices/productsSlice";
-// import {
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableContainer,
-//   TableHead,
-//   TableRow,
-//   Paper,
-//   IconButton,
-//   Typography,
-// } from "@mui/material";
-// import { Edit, Delete, Refresh } from "@mui/icons-material";
-// import { useSelector } from "react-redux";
-// import { toast } from "react-toastify";
-// const LiveProductData = () => {
-//   const { status, items: products } = useSelector((state) => state.products);
-//   const [productForEdit, setProductForEdit] = useState(null);
+import React, { useState } from "react";
+import Dashboard from "./Dashboard";
+import { deleteProduct } from "../slices/productsSlice";
+import { ToastContainer } from "react-toastify";
+import "./Dashboard.css";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { Edit, Delete } from "@mui/icons-material";
+const LiveProductData = () => {
+  const { status, items: products } = useSelector((state) => state.products);
+    const [productForEdit, setProductForEdit] = useState(null);
+    const dispatch = useDispatch();
 
-//   const handleEditClick = (product) => {
-//     setProductForEdit(product);
-//   };
-//   const handleDelete = async (batch_code) => {
-//        try {
-//     const response = await fetch(`http://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000/deleteProduct`, {
-//       method: "DELETE",
-//       headers: {
-//         "Content-Type": "application/json",
-//         // Add any additional headers if required
-//       },
-//       body: JSON.stringify({ batch_code: batch_code }), // Include the request body here
-//     });
-//     // const data = await response.json();
-//     // Perform any additional actions after successful deletion
-//   } catch (error) {
-//          console.error('Error deleting data:', error);
-//          toast.error('Error deleting data:', error);
-//     // Handle errors appropriately
-//     }
-//        finally {
-//          toast.success("Deleted successfully");
+    const handleEditClick = (product) => {
+        const propProduct = {
+          ...product,
+          category_name: product.categories,
+          name: product.product_name, // Assuming product.categories is the value you want to assign
+        };
+    setProductForEdit(propProduct);
+  };
+  const handleDelete = async (batch_code) => {
+    try {
+      const response = await fetch(
+        `https://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000/deleteProduct`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ batch_code }), // Simplified
+        }
+      );
+      console.log("response", response);
+      if (!response.ok) {
+        throw new Error("Failed to delete the product");
+      }
 
-//          const updatedData = data.filter(
-//            (item) => item.batch_code !== batchCode
-//          );
-//          dispatch(deleteProduct(updatedData));
-//     }
-    
-//   }
-//   const editProductsComponent = () => {
-//     console.log("product",productForEdit);
-//     return (
-//       <div>
-//         <Dashboard product={productForEdit} />
-//       </div>
-//     );
-//   };
+      toast.success("Deleted successfully");
+        // Assuming deleteProductAction is expecting just the batch_code to remove the product
+        const pro=products.filter(()=>{products.batch_code != batch_code})
+      dispatch(deleteProduct(pro));
+    } catch (error) {
+      console.error("Error deleting data:", error);
+      toast.error("Error deleting data");
+    }
+  };
 
-//   return (
-//     <div>
-//       {productForEdit ? (
-//         editProductsComponent()
-//       ) : (
-//         <TableContainer component={Paper} style={{ marginTop: "5rem" }}>
-//           <Table>
-//             <TableHead>
-//               <TableRow>
-//                 <TableCell>
-//                   <Typography variant="h6" component="div" fontWeight="bold">
-//                     Batch Code
-//                   </Typography>
-//                 </TableCell>
-//                 <TableCell>
-//                   <Typography variant="h6" component="div" fontWeight="bold">
-//                     Name
-//                   </Typography>
-//                 </TableCell>
-//                 <TableCell>
-//                   <Typography variant="h6" component="div" fontWeight="bold">
-//                     Category
-//                   </Typography>
-//                 </TableCell>
-//                 <TableCell>
-//                   <Typography variant="h6" component="div" fontWeight="bold">
-//                     Actions
-//                   </Typography>
-//                 </TableCell>
-//               </TableRow>
-//             </TableHead>
-//             <TableBody>
-//               {status === "success" ? (
-//                 products.map((product) => (
-//                   <TableRow key={product.id}>
-//                     <TableCell>{product.batch_code}</TableCell>
-//                     <TableCell>{product.product_name}</TableCell>
-//                     <TableCell>{product.categories.join(", ")}</TableCell>
-//                     <TableCell>
-//                       <IconButton
-//                         color="primary"
-//                         aria-label="Edit"
-//                         onClick={() => handleEditClick(product)}
-//                       >
-//                         <Edit />
-//                       </IconButton>
-//                       <IconButton color="error" aria-label="Delete"
-//                       onClick={()=>handleDelete(product.batch_code)}>
-//                         <Delete />
-//                       </IconButton>
-//                     </TableCell>
-//                   </TableRow>
-//                 ))
-//               ) : status === "loading" ? (
-//                 <TableRow>
-//                   <TableCell colSpan={4} align="center">
-//                     Loading...
-//                   </TableCell>
-//                 </TableRow>
-//               ) : (
-//                 <TableRow>
-//                   <TableCell colSpan={4} align="center">
-//                     Status: {status}
-//                   </TableCell>
-//                 </TableRow>
-//               )}
-//             </TableBody>
-//           </Table>
-//         </TableContainer>
-//       )}
-//     </div>
-//   );
-// };
+  const editProductsComponent = () => {
+    console.log("product",productForEdit);
+    return (
+      <div>
+        <Dashboard product={productForEdit} />
+      </div>
+    );
+  };
 
-// export default LiveProductData;
+  return (
+    <div>
+      <ToastContainer />
+      {productForEdit ? (
+        <Dashboard
+          product={productForEdit}
+          setProductForEdit={setProductForEdit}
+        />
+      ) : (
+        <div style={{ marginTop: "1rem" }}>
+          <table>
+            <thead>
+              <tr>
+                <th>Batch Code</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {status === "success" &&
+                products.map((product) => (
+                  <tr key={product.id}>
+                    <td>{product.batch_code}</td>
+                    <td>{product.product_name}</td>
+                    <td>{product.categories.join(", ")}</td>
+                    <td>
+                      <button onClick={() => handleEditClick(product)}>
+                        <Edit/>
+                      </button>
+                      <button onClick={() => handleDelete(product.batch_code)}>
+                        <Delete/>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+          {status === "loading" && <p>Loading...</p>}
+          {status !== "success" && status !== "loading" && (
+            <p>Status: {status}</p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default LiveProductData;

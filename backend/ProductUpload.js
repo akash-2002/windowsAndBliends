@@ -44,7 +44,6 @@ export async function uploadProductDetails(req) {
   } catch (error) {
     // await connection.rollback();
     console.error('Error uploading product details:', error);
-    throw error;
   }
 }
 
@@ -106,7 +105,7 @@ export async function addCategoriesForProduct(batchCode, categoryNames,connectio
   // const connection = await pool.getConnection();
   // Get all existing categories
   const existingCategories = await getAllCategories(connection);
-  
+  console.log("categoryNames: ", categoryNames)
   for (const categoryName of categoryNames) {
         try {
         // Check if category ID exists
@@ -128,13 +127,14 @@ export async function addCategoriesForProduct(batchCode, categoryNames,connectio
             ]
           );
         } else {
+          console.log("existingCategories: ", existingCategory);
           // If category ID exists, use its ID directly
           await connection.query(
-            "INSERT INTO product_categories (id,batch_code, category_id) VALUES (?, ?,?)",
+            "INSERT ignore INTO product_categories (id,batch_code, category_id) VALUES (?, ?,?)",
             [
-              batchCode + "_" + categories.insertId,
+              batchCode + "_" + existingCategory.category_id,
               batchCode,
-              categories.insertId,
+              existingCategory.category_id,
             ]
           );
           // connection.release();

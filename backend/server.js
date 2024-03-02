@@ -1,4 +1,4 @@
-import {getAllProductDetails} from './database.js'
+import { getAllProductDetails, handleDelete } from "./database.js";
 import express from 'express';
 import bodyParser from 'body-parser';
 import multer from 'multer';
