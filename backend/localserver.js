@@ -172,19 +172,19 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// const cert = fs.readFileSync(
-//   path.resolve(__dirname, "certificate.crt"),
-//   "utf-8"
-// );
-// const key = fs.readFileSync(path.resolve(__dirname, "private.key"), "utf-8");
-// const ca = fs.readFileSync(path.resolve(__dirname, "ca_bundle.crt"), "utf-8");
-// const options = {
-//   key: key,
-//   cert: cert,
-//   ca: ca,
-// };
-// const server = https.createServer(options, app);
-app.listen(port, async () => {
+const cert = fs.readFileSync(
+  path.resolve(__dirname, "certificate.crt"),
+  "utf-8"
+);
+const key = fs.readFileSync(path.resolve(__dirname, "private.key"), "utf-8");
+const ca = fs.readFileSync(path.resolve(__dirname, "ca_bundle.crt"), "utf-8");
+const options = {
+  key: key,
+  cert: cert,
+  ca: ca,
+};
+const server = https.createServer(options, app);
+server.listen(port, async () => {
   console.log(`App listening at https://localhost:${port}`);
   try {
     const connection = await pool.getConnection();
