@@ -1,7 +1,9 @@
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { AiFillTwitterCircle } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <footer className=" bg-[#eeeffb]">
       <div className="flex  items-center justify-around px-10 py-20">
@@ -19,6 +21,8 @@ const Footer = () => {
             <div>
               <p className="text-sm text-subtext">Contact Info</p>
               <p className="text-sm text-subtext">
+                +1-6043601483
+                <br/>
                 15300 68 Ave unit 108, Surrey, BC V3S 2B9
               </p>
             </div>
@@ -34,7 +38,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className="space-y-6 ">
+          {/* <div className="space-y-6 ">
             <h3 className="font-jose text-black">Customer Care</h3>
             <ul className="space-y-4 text-sm text-subtext">
               <li>My Account</li>
@@ -43,25 +47,57 @@ const Footer = () => {
               <li>Order History</li>
               <li>order Tracking</li>
             </ul>
-          </div>
+          </div> */}
           <div className="space-y-6 ">
             <h3 className="font-jose text-black">Pages</h3>
             <ul className="space-y-4 text-sm text-subtext">
-              <li>Blog</li>
-              <li>Browser the Shop</li>
-              <li>Category</li>
-              <li>Pre-Built Pages</li>
-              <li>Visual Composer Elements</li>
-              <li>WooCommerce Pages</li>
+              <li
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                Home
+              </li>
+              <li
+                onClick={() => {
+                  navigate("/pages/grid");
+                }}
+              >
+                Browser the Shop
+              </li>
+              <li
+                onClick={() => {
+                  navigate("/company/about-us");
+                }}
+              >
+                About Us
+              </li>
+              <li
+                onClick={() => {
+                  navigate("/company/contact");
+                }}
+              >
+                Contact Us
+              </li>
+              <li
+                onClick={() => {
+                  navigate("/company/faq");
+                }}
+              >
+                FAQ
+              </li>
             </ul>
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-around bg-[#e7e4f8] py-4">
+      <div className="items-left ml-10 flex bg-[#e7e4f8] py-4">
         <div className="flex gap-4">
           <FaFacebook size={25} />
           <FaInstagram size={25} />
           <AiFillTwitterCircle size={25} />
+        </div>
+        <div className="ml-10 mt-2 gap-4 font-jose text-black">
+          Powerd By Omnitrics
         </div>
       </div>
     </footer>

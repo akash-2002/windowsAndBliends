@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../slices/userApiSlice";
 import { logout } from "../slices/authSlice.js";
-
+import logo from "/assets/hitech_logo-removebg-preview.png";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 //icons
 import { BiPhoneCall, BiSearch, BiDownArrow } from "react-icons/bi";
@@ -52,7 +52,9 @@ const Header = ({ isTopOfPage }) => {
   };
 
   //style
-  const navbarBackground = isTopOfPage ? "" : "drop-shadow bg-white";
+  const navbarBackground = isTopOfPage
+    ? "drop-shadow bg-white"
+    : "drop-shadow bg-white";
 
   return (
     <nav>
@@ -117,6 +119,18 @@ const Header = ({ isTopOfPage }) => {
                                 Profile
                               </Link>
                             </button>
+                            {userInfo && userInfo.profile === "Admin" && (
+                              <button className=" text-md border-b-2 px-4 py-2 text-violet hover:bg-slate-200">
+                                <Link
+                                  to="/dashboard"
+                                  role="menuitem"
+                                  tabIndex="-1"
+                                  id="menu-item-1"
+                                >
+                                  Dashboard
+                                </Link>
+                              </button>
+                            )}
 
                             {/* log out */}
                             <button
@@ -152,11 +166,24 @@ const Header = ({ isTopOfPage }) => {
             <div
               className={` ${divBetween} ${navbarBackground} gap-3  px-20 py-2  text-navbartext `}
             >
-              <Link to="/">
-                <h1 className="font-jose text-2xl font-bold">
+              <Link to="/" className="flex items-center">
+                <img
+                  src={logo}
+                  alt="logo"
+                  style={{
+                    width: "auto",
+                    height: "2rem",
+                    marginRight: "0.5rem",
+                  }}
+                />
+                <h1
+                  className="font-jose text-2xl font-bold"
+                  style={{ lineHeight: "2rem" }}
+                >
                   Hightech Window and Blinds
                 </h1>
               </Link>
+
               <div className="">
                 <ul className="flex flex-row items-center gap-5 text-center">
                   <li>
@@ -205,12 +232,25 @@ const Header = ({ isTopOfPage }) => {
             </div>
           </div>
         ) : (
-          <div className={` ${divBetween}  bg-secondary px-10 py-3`}>
-            <Link to="/">
+          <div className={` ${divBetween} bg-secondary px-10 py-3`}>
+            <Link
+              to="/"
+              className="flex flex-col items-center justify-center text-center"
+            >
+              <img
+                src={logo}
+                alt="logo"
+                style={{
+                  width: "auto",
+                  height: "2rem",
+                  marginBottom: "0.5rem",
+                }}
+              />
               <h1 className="navbartext font-jose text-3xl font-bold text-blue">
                 Hightech Window and Blinds
               </h1>
             </Link>
+
             <button
               className="rounded-full bg-blue p-2"
               onClick={() => setIsMenuToggled(!isMenuToggled)}
@@ -284,7 +324,7 @@ const Header = ({ isTopOfPage }) => {
                       <div className="ml-7">
                         <div
                           type="button"
-                          className="text-md inline-flex w-full justify-center gap-x-1.5  rounded-md px-3 py-2 font-semibold text-white shadow-sm"
+                          className="text-md inline-flex w-full justify-center gap-x-1.5  rounded-md px-3 py-2 font-semibold text-black shadow-sm"
                           id="username"
                           onClick={() => setIsOpen(!isOpen)}
                         >
@@ -312,6 +352,18 @@ const Header = ({ isTopOfPage }) => {
                                     Profile
                                   </NavLink>
                                 </button>
+                                {userInfo && userInfo.profile === "Admin" && (
+                                  <button className=" text-md border-b-2 px-4 py-2 text-violet hover:bg-slate-200">
+                                    <Link
+                                      to="/dashboard"
+                                      role="menuitem"
+                                      tabIndex="-1"
+                                      id="menu-item-1"
+                                    >
+                                      Dashboard
+                                    </Link>
+                                  </button>
+                                )}
 
                                 {/* log out */}
                                 <button

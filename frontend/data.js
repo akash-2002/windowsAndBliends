@@ -211,17 +211,17 @@ export const latestProducts = [
 export const offers = [
   {
     img: "/assets/delivery.png",
-    name: "24/7 Support",
+    name: "Free Delivery",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus gravida.",
   },
   {
     img: "/assets/cashback.png",
-    name: "24/7 Support",
+    name: "Easy Returns2",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus gravida.",
   },
   {
     img: "/assets/quality.png",
-    name: "24/7 Support",
+    name: "Trusted Payment",
     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus gravida.",
   },
   {
