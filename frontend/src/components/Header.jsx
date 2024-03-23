@@ -208,6 +208,26 @@ const Header = ({ isTopOfPage }) => {
                   </li>
                   <li>
                     <NavLink
+                      to="/company/about-us"
+                      className={({ isActive }) =>
+                        isActive ? activeClassName : ""
+                      }
+                    >
+                      About Us
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/company/contact"
+                      className={({ isActive }) =>
+                        isActive ? activeClassName : ""
+                      }
+                    >
+                      Contact
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
                       to="/contact"
                       className={({ isActive }) =>
                         isActive ? activeClassName : ""
@@ -307,6 +327,26 @@ const Header = ({ isTopOfPage }) => {
                       }
                     >
                       Cart
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/company/about-us"
+                      className={({ isActive }) =>
+                        isActive ? activeClassName : ""
+                      }
+                    >
+                      About Us
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/company/contact"
+                      className={({ isActive }) =>
+                        isActive ? activeClassName : ""
+                      }
+                    >
+                      Contact
                     </NavLink>
                   </li>
                   <li>

@@ -13,13 +13,13 @@ const Dashboard = (props) => {
           onClick={() => setActiveTab("fillData")}
           className={activeTab === "fillData" ? "active" : ""}
         >
-          Fill Data
+          Product List
         </button>
         <button
           onClick={() => setActiveTab("liveProductData")}
           className={activeTab === "liveProductData" ? "active" : ""}
         >
-          Live Product Data
+          Add New Product
         </button>
       </div>
       <div className="tab-content">
