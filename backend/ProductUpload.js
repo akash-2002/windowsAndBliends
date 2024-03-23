@@ -54,14 +54,24 @@ console.log(batchCodeIf);
 var productInsertResult;
 if(batchCodeIf[0].length===0){
   productInsertResult = await connection.query(
-    'INSERT INTO products (name, batch_code, address, description,price) VALUES (?, ?, ?, ?,?)',
-    [productDetails.name, productDetails.batch_code, productDetails.address, productDetails.description,productDetails.price]
+    'INSERT INTO products (name, batch_code, address, description,price,brand,material,height,width) VALUES (?, ?, ?, ?,?,?,?,?,?)',
+    [productDetails.name, productDetails.batch_code, productDetails.address, productDetails.description,productDetails.price,productDetails.Brand,productDetails.Material,productDetails.Height,productDetails.Width]
   );
 }
 else{
   productInsertResult = await connection.query(
-    'UPDATE products SET name = ?, address = ?, description = ?,price=? WHERE batch_code = ?',
-    [productDetails.name, productDetails.address, productDetails.description,productDetails.price,productDetails.batch_code]
+    "UPDATE products SET name = ?, address = ?, description = ?,price=?, brand=?,material=?,height=?,width=? WHERE batch_code = ?",
+    [
+      productDetails.name,
+      productDetails.address,
+      productDetails.description,
+      productDetails.price,
+      productDetails.Brand,
+      productDetails.Material,
+      productDetails.Height,
+      productDetails.Width,
+      productDetails.batch_code,
+    ]
   );
 }
 return productInsertResult;

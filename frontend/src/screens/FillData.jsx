@@ -2,8 +2,28 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import "./Dashboard.css";
 import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { addProduct } from "../slices/productsSlice";
+import {
+  TextField,
+  Button,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+
+} from "@mui/material";
+// import { ArrowDownwardIcon, ArrowDropDownIcon } from "@mui/icons-material";
+// import Accordion from "@mui/material/Accordion";
+// import AccordionSummary from "@mui/material/AccordionSummary";
+// import AccordionDetails from "@mui/material/AccordionDetails";
+// import Typography from "@mui/material/Typography";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 
 const FillData = (props) => {
+  const { items: products } = useSelector((state) => state.products);
+    const dispatch = useDispatch();
   const [images, setImages] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -19,6 +39,10 @@ const FillData = (props) => {
           colors: [],
           category_name: [],
           price: null,
+          Height: "",
+          Width: "",
+          Brand: "",
+          Material: "",
         }
   );
   const fileInputRef = useRef(null);
@@ -60,7 +84,7 @@ const FillData = (props) => {
       formDataWithImages.append("formData", JSON.stringify(formData));
 
       const response = await axios.post(
-        "https://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000/uploadImageWithFormData",
+        `${import.meta.env.VITE_SERVER_URL}/uploadImageWithFormData`,
         formDataWithImages,
         {
           headers: {
@@ -68,8 +92,9 @@ const FillData = (props) => {
           },
         }
       );
-
+      addProductToRedux();
       setUploadedFiles(response.data);
+
     } catch (error) {
       console.error("Error uploading images:", error);
       toast.error("Failed to upload images. Please try again later.");
@@ -84,6 +109,10 @@ const FillData = (props) => {
         colors: [],
         category_name: [],
         price: "",
+        Height: "",
+        Width: "",
+        Brand: "",
+        Material:""
       });
         toast.success("Product Is Uploded");
         if (ifData) {
@@ -92,82 +121,83 @@ const FillData = (props) => {
     }
   };
 
+  const addProductToRedux = () => {
+    console.log("formData",formData)
+    dispatch(addProduct(formData));
+  }
+
   return (
     <div className="upload-form-container">
       <form onSubmit={handleSubmit} className="upload-form">
         <div className="form-group">
-          <label htmlFor="batch_code">Batch Code:</label>
-          <input
-            type="text"
+          <TextField
             id="batch_code"
+            label="SKU Code:"
             name="batch_code"
-            placeholder="Batch Code"
+            placeholder="batch_code"
+            variant="outlined"
             value={formData.batch_code}
             onChange={handleChange}
+            fullWidth
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
+          <TextField
             id="name"
             name="name"
+            label="Name"
             placeholder="Name"
+            variant="outlined"
             value={formData.name}
             onChange={handleChange}
+            fullWidth
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="name">price:</label>
-          <input
-            type="text"
+          <TextField
             id="price"
             name="price"
-            placeholder="price"
+            label="Price"
+            placeholder="Price"
             value={formData.price}
             onChange={handleChange}
+            fullWidth
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="description">Description:</label>
-          <input
-            type="text"
+          <TextField
             id="description"
             name="description"
+            label="Description"
             placeholder="Description"
             value={formData.description}
             onChange={handleChange}
+            fullWidth
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="colors">Colors (comma separated):</label>
-          <input
-            type="text"
+          <TextField
             id="colors"
             name="colors"
+            label="Colors (comma separated)"
             placeholder="Colors"
             value={formData.colors.join(",")}
             onChange={(e) =>
-              setFormData({
-                ...formData,
-                colors: e.target.value.split(","),
-              })
+              setFormData({ ...formData, colors: e.target.value.split(",") })
             }
+            fullWidth
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="category_name">
-            Category Names (comma separated):
-          </label>
-          <input
-            type="text"
+          <TextField
             id="category_name"
             name="category_name"
+            label="Category Names (comma separated)"
             placeholder="Category Names"
             value={formData.category_name.join(",")}
             onChange={(e) =>
@@ -176,7 +206,83 @@ const FillData = (props) => {
                 category_name: e.target.value.split(","),
               })
             }
+            fullWidth
             required
+          />
+        </div>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ArrowDropDownIcon />}
+            aria-controls="panel2-content"
+            id="panel2-header"
+          >
+            <Typography>Dimensions Details</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className="form-group">
+              <TextField
+                id="Height"
+                name="Height"
+                label="Height"
+                placeholder="Height"
+                value={formData.Height}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    Height: e.target.value,
+                  })
+                }
+                fullWidth
+              />
+            </div>
+            <div className="form-group">
+              <TextField
+                id="Width"
+                name="Width"
+                label="Width"
+                placeholder="Width"
+                value={formData.Width}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    Width: e.target.value,
+                  })
+                }
+                fullWidth
+              />
+            </div>
+          </AccordionDetails>
+        </Accordion>
+        <div className="form-group">
+          <TextField
+            id="Brand"
+            name="Brand"
+            label="Brand"
+            placeholder="Brand"
+            value={formData.Brand}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                Brand: e.target.value,
+              })
+            }
+            fullWidth
+          />
+        </div>
+        <div className="form-group">
+          <TextField
+            id="Material"
+            name="Material"
+            label="Material"
+            placeholder="Material"
+            value={formData.Material}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                Material: e.target.value,
+              })
+            }
+            fullWidth
           />
         </div>
         <div className="form-group">
@@ -189,9 +295,10 @@ const FillData = (props) => {
             ref={fileInputRef}
           />
         </div>
-        <button type="submit" disabled={uploading}>
+
+        <Button type="submit" disabled={uploading}>
           {uploading ? "Uploading..." : "Upload Data"}
-        </button>
+        </Button>
       </form>
       {uploadedFiles.length > 0 && (
         <div className="uploaded-files">

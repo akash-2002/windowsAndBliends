@@ -14,6 +14,7 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [number, setNumber] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const { userInfo } = useSelector((state) => state.auth);
@@ -22,7 +23,7 @@ const RegisterScreen = () => {
   const dispatch = useDispatch();
 
   const [register, { isLoading }] = useRegisterMutation();
-
+  
   useEffect(() => {
     if (userInfo) {
       navigate("/");
@@ -36,7 +37,7 @@ const RegisterScreen = () => {
       toast.error("Passwords do not match");
     } else {
       try {
-        const res = await register({ name, email, password }).unwrap();
+        const res = await register({ name, email, password,number }).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate("/");
       } catch (error) {
@@ -71,6 +72,14 @@ const RegisterScreen = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email Address"
+            className="w-[400px] border-2 px-3 py-3 text-sm text-subtext1"
+          />
+          <input
+            name="Number"
+            type="integer"
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+            placeholder="Number"
             className="w-[400px] border-2 px-3 py-3 text-sm text-subtext1"
           />
           <input
