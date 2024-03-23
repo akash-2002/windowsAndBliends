@@ -2,28 +2,14 @@ import ActionButton from "../shares/ActionButton";
 import Sofa from "/assets/sofa.png";
 import logo from "/assets/hitech_logo-removebg-preview.png";
 import Lamp from "/assets/lamp.png";
-import { useState, useEffect } from "react";
+
+
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const HeroSection = () => {
-  const [navbarHeight, setNavbarHeight] = useState(8);
-
-  useEffect(() => {
-    // Get the height of the navbar
-    const navbar = document.querySelector("nav");
-    console.log(navbar);
-    if (navbar) {
-      const height = navbar.offsetHeight;
-      console.log(height);
-      setNavbarHeight(height==0?8:height);
-    }
-  }, []);
   return (
-    <section
-      className="bg-primary md:pt-20"
-      style={{ marginTop: window.innerWidth >= 768 ? navbarHeight : 0 }}
-    >
+    <section className="  bg-primary md:pt-20">
       <div className="grid px-10 md:flex ">
         <motion.div
           initial="hidden"

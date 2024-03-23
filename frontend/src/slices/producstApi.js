@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // const serverUrl = import.meta.env.VITE_SERVER_URL;
 
-const baseUrl = `${import.meta.env.VITE_SERVER_URL}/`
-console.log(baseUrl);
+const baseUrl = `https://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000/`;
+
 export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({

@@ -20,7 +20,7 @@ const AboutUs = () => {
 
         <div className="w-[50%] space-y-4">
           <h1 className="font-jose text-xl font-extrabold text-blue md:text-2xl">
-            Know About Our Ecommerce <br /> Business, History
+            Know About Our Ecomerce <br /> Business, History
           </h1>
           <p className="text-xs leading-6 text-subtext md:text-sm">
             Our e-commerce journey began with a simple vision—to make quality

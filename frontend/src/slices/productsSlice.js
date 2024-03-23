@@ -16,9 +16,7 @@ export const productsFetch = createAsyncThunk(
   "products/productsFetch",
   //payloadCreator
   async () => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_SERVER_URL}/getProducts`
-    );
+    const response = await axios.get(`https://ec2-13-53-103-57.eu-north-1.compute.amazonaws.com:5000/getProducts`);
     return response?.data;
   }
 );
@@ -32,18 +30,8 @@ const productsSlice = createSlice({
       state.productDetails = payload;
     },
     deleteProduct: (state, { payload }) => {
-      console.log("reducer called");
+      console.log("reducer called")
       state.items = payload;
-    },
-    addProduct: (state, { payload }) => {
-      state.items = [
-        ...state.items,
-        {
-          ...payload,
-          categories: payload.category_name,
-          product_name: payload.name,
-        },
-      ];
     },
   },
   extraReducers: (builder) => {
@@ -60,7 +48,6 @@ const productsSlice = createSlice({
     });
   },
 });
-export const { addToProductDetails, deleteProduct, addProduct } =
-  productsSlice.actions;
+export const { addToProductDetails, deleteProduct } = productsSlice.actions;
 
 export default productsSlice.reducer;

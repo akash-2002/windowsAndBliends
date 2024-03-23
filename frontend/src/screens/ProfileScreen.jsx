@@ -52,7 +52,7 @@ const ProfileScreen = () => {
   return (
     <div>
       <section className="pt-10 md:pt-20">
-        <SharedBanner>Update User Profile</SharedBanner>
+        <SharedBanner>Update Profile User</SharedBanner>
         <div className="mx-auto flex items-center justify-center p-10">
           <form
             onSubmit={submitHandler}
@@ -60,7 +60,7 @@ const ProfileScreen = () => {
           >
             <div className="">
               <h1 className="text-center font-jose text-2xl font-bold">
-                Update User Profile
+                Update Profile User
               </h1>
             </div>
             <input

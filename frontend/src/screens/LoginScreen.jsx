@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SharedBanner from "../shares/SharedBanner";
 import ActionButton from "../shares/ActionButton";
-import { jwtDecode } from "jwt-decode";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../slices/userApiSlice";
 import { setCredentials } from "../slices/authSlice";
@@ -33,13 +33,11 @@ const LoginScreen = () => {
     try {
       //unwrap the promise
       const res = await login({ email, password }).unwrap();
+      console.log(res);
       if (res.Status == 500) {
         alert("password or email is wrong doesn't match");
       }
-      console.log(res);
-      const decoded = jwtDecode(res.token);
-      console.log('Decoded JWT:', decoded);
-      dispatch(setCredentials({ ...decoded }));
+      dispatch(setCredentials({ ...res }));
       navigate("/");
     } catch (error) {
       console.log(error);

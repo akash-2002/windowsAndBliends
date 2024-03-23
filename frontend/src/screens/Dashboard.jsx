@@ -7,7 +7,7 @@ const Dashboard = (props) => {
   console.log("product", props.product);
 
   return (
-    <div style={{ marginTop: "7rem" }}>
+    <div style={{ marginTop: "5rem" }}>
       <div className="tab-buttons">
         <button
           onClick={() => setActiveTab("fillData")}
