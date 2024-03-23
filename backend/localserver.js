@@ -170,7 +170,7 @@ app.post("/register", async (req, res) => {
     res.status(400);
     res.send({ error: e.message });
   }
-});;
+});
 
 // const cert = fs.readFileSync(
 //   path.resolve(__dirname, "certificate.crt"),

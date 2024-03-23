@@ -140,19 +140,10 @@ app.post("/uploadImageWithFormData", uploadImage, async (req, res) => {
 app.post("/auth", async (req, res) => {
   console.log("authapihit");
   try {
-    if (
-      "HightechBliends@321" === req.body.password &&
-      req.body.email === "info@hitechwindowandblinds.com"
-    ) {
-      res.send({
-        tocken: "authanticated buy akash",
-        profile: "Admin",
-      });
-    } else {
-      throw { code: 500, message: "password or email is wrong doesn't match" };
-    }
+    const token = await loginUser(req.body);
+    res.send({ status: ok, ...token });
   } catch (error) {
-    res.status(500).json({ error: "password or email is wrong doesn't match" });
+    res.status(500).json({ error: e.message });
   }
 });
 
@@ -166,6 +157,16 @@ app.delete("/deleteProduct", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("An error occurred while deleting the product.");
+  }
+});
+app.post("/register", async (req, res) => {
+  try {
+    await register(req.body);
+    res.send({ status: ok, ...req.body });
+  } catch (e) {
+    console.log(e);
+    res.status(400);
+    res.send({ error: e.message });
   }
 });
 
