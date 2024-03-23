@@ -1,7 +1,7 @@
 import { getAllProductDetails, handleDelete } from "./database.js";
-import express from 'express';
-import bodyParser from 'body-parser';
-import multer from 'multer';
+import express from "express";
+import bodyParser from "body-parser";
+import multer from "multer";
 import { uploadProductDetails, saveImagePath } from "./ProductUpload.js";
 import { readExcelFileAndUpload } from "./xlsxSupporrt.js";
 import ftp from "basic-ftp";
@@ -24,6 +24,9 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 import mysql from "mysql2";
 import dotenv from "dotenv";
+import { ok } from "assert";
+import { register, loginUser } from "./auth.js";
+import { log } from "console";
 dotenv.config();
 const pool = mysql
   .createPool({
@@ -54,8 +57,6 @@ app.post("/uploadDetatils", async (req, res) => {
   console.log("Product: ", Product);
   res.send(JSON.stringify(Product));
 });
-
-
 
 app.get("/getProducts", async (req, res) => {
   console.log("productApi is hit");
@@ -170,16 +171,12 @@ app.post("/register", async (req, res) => {
   }
 });
 
-
-const cert = fs.readFileSync(path.resolve(__dirname, "certificate.crt"),"utf-8");
-const key = fs.readFileSync(
-  path.resolve(__dirname, "private.key"),
+const cert = fs.readFileSync(
+  path.resolve(__dirname, "certificate.crt"),
   "utf-8"
 );
-const ca = fs.readFileSync(
-  path.resolve(__dirname, "ca_bundle.crt"),
-  "utf-8"
-);
+const key = fs.readFileSync(path.resolve(__dirname, "private.key"), "utf-8");
+const ca = fs.readFileSync(path.resolve(__dirname, "ca_bundle.crt"), "utf-8");
 const options = {
   key: key,
   cert: cert,
