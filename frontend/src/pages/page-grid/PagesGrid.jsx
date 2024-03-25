@@ -55,7 +55,7 @@ const PagesGrid = () => {
   return (
     <section className="pt-10 md:pt-20">
       {/* banner title */}
-      <SharedBanner>Shop Grid Default</SharedBanner>
+      <SharedBanner>Shop</SharedBanner>
 
       <div className="flex h-full w-full items-center justify-center bg-white px-20 md:px-20 ">
         <div className="my-10 md:my-20">

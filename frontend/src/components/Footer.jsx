@@ -22,7 +22,7 @@ const Footer = () => {
               <p className="text-sm text-subtext">Contact Info</p>
               <p className="text-sm text-subtext">
                 +1-6043601483
-                <br/>
+                <br />
                 15300 68 Ave unit 108, Surrey, BC V3S 2B9
               </p>
             </div>
@@ -97,7 +97,7 @@ const Footer = () => {
           <AiFillTwitterCircle size={25} />
         </div>
         <div className="ml-10 mt-2 gap-4 font-jose text-black">
-          Powerd By Omnitrics
+          <a herf="">Powerd By Omnitrics Digital</a>
         </div>
       </div>
     </footer>
